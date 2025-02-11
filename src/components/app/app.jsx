@@ -16,8 +16,8 @@ export const App = () => {
     // get joke
     useEffect(() => {
         const getJoke = async () => {
-            setJokeError(false);
             if (searchedCategory || isRandomJoke) {
+                setJokeError(false);
                 try {
                     let response;
 
@@ -34,12 +34,14 @@ export const App = () => {
                     const data = await response.json();
 
                     setJoke(data.value);
-                    setSearchedCategory("");
-                    setIsRandomJoke(false);
                 } catch (error) {
                     console.error(error);
                     setJoke("");
                     setJokeError(true);
+                } finally {
+                    console.log(jokeError);
+                    setSearchedCategory("");
+                    setIsRandomJoke(false);
                 }
             }
         };
