@@ -1,0 +1,21 @@
+main {
+    margin-top: 2rem;
+    text-align: center;
+
+    .getRandomJoke {
+        border: none;
+        background: rgb(200, 255, 117);
+        padding: 0.5rem 1rem;
+        margin: 1rem auto;
+        font-size: 1.1rem;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .error {
+        color: darkred;
+        font-size: 2rem;
+    }
+}

@@ -1,3 +1,4 @@
+import "./search.scss";
 import { useEffect, useState } from "react";
 import { CategoryOption } from "./category-option";
 

@@ -1,3 +1,5 @@
+import "./joke.scss";
+
 export const Joke = ({ joke }) => {
-    return <div>{joke}</div>;
+    return <div className="joke">{joke}</div>;
 };

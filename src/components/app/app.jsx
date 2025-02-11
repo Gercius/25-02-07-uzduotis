@@ -6,7 +6,8 @@ import { Joke } from "../joke/joke";
 export const App = () => {
     const [searchedCategory, setSearchedCategory] = useState("");
     const [joke, setJoke] = useState("");
-    const [randomJoke, setRandomJoke] = useState(false);
+    const [isRandomJoke, setIsRandomJoke] = useState(false);
+    const [jokeError, setJokeError] = useState(false);
 
     const handleSearch = (category) => {
         setSearchedCategory(category);
@@ -14,24 +15,45 @@ export const App = () => {
 
     // get joke
     useEffect(() => {
-        if (searchedCategory) {
-            fetch(`https://api.chucknorris.io/jokes/random?category=${searchedCategory}`)
-                .then((response) => response.json())
-                .then((data) => setJoke(data.value))
-                .then(setSearchedCategory(""));
-        } else if (randomJoke) {
-            fetch("https://api.chucknorris.io/jokes/random")
-                .then((response) => response.json())
-                .then((data) => setJoke(data.value))
-                .then(setRandomJoke(false));
-        }
-    }, [searchedCategory, randomJoke]);
+        const getJoke = async () => {
+            setJokeError(false);
+            if (searchedCategory || isRandomJoke) {
+                try {
+                    let response;
+
+                    if (searchedCategory) {
+                        response = await fetch(`https://api.chucknorris.io/jokes/random?category=${searchedCategory}`);
+                    } else if (isRandomJoke) {
+                        response = await fetch("https://api.chucknorris.io/jokes/random");
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    setJoke(data.value);
+                    setSearchedCategory("");
+                    setIsRandomJoke(false);
+                } catch (error) {
+                    console.error(error);
+                    setJoke("");
+                    setJokeError(true);
+                }
+            }
+        };
+        getJoke();
+    }, [searchedCategory, isRandomJoke]);
 
     return (
         <main>
             <Search onSearch={handleSearch} />
-            <button onClick={() => setRandomJoke(true)}>Gauti atsitiktinį juokelį</button>
+            <button className="getRandomJoke" onClick={() => setIsRandomJoke(true)}>
+                Gauti atsitiktinį juokelį
+            </button>
             <Joke joke={joke} />
+            {jokeError && <p className="error">Juokelis nerastas!</p>}
         </main>
     );
 };

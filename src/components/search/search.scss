@@ -1,0 +1,31 @@
+.searchBar {
+    max-width: fit-content;
+    margin: 0 auto;
+
+    form {
+        text-align: center;
+
+        label,
+        input {
+            display: block;
+            font-size: 1.5rem;
+        }
+
+        input {
+            padding: 0 0.5rem;
+            margin: 1rem auto;
+            max-width: 75%;
+        }
+
+        button {
+            border: none;
+            background: rgb(200, 255, 117);
+            padding: 0.5rem 1rem;
+            font-size: 1.1rem;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+}
